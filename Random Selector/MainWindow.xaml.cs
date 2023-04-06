@@ -1,6 +1,7 @@
 ﻿using Random_Selector.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,8 @@ namespace Random_Selector
     /// </summary>
     public partial class MainWindow : Window
     {
-        string filePath = @"C:\Intec\RandomSelector\Students.txt";
+        string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
+        //string filePath = @"C:\Intec\RandomSelector\Students.txt";
         List<Student> students = new List<Student>();
         List<Student> studentsGroup = new List<Student>();
         public MainWindow()
