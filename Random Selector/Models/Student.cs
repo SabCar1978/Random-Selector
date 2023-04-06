@@ -20,7 +20,7 @@ namespace Random_Selector.Models
 
         public override string ToString()
         {
-            return $"{Id} {Level} {FirstName} {LastName}";
+            return $"{Level} {FirstName} {LastName}";
         }
     }
 }

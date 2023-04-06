@@ -28,16 +28,30 @@ namespace Random_Selector
         public MainWindow()
         {
             InitializeComponent();
+            LoadStudents();
         }
 
-        private List<Student> ReadFromFile()
+        private void LoadStudents()
         {
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
             }
-            else
+            else { }
+            foreach (var student in students)
             {
+                lstAllStudents.Items.Add(student);
+            }
+        
+        }
+        private List<Student> ReadFromFile()
+        {
+            //if (!File.Exists(filePath))
+            //{
+            //    MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
+            //}
+            //else
+            //{
                 IEnumerable<string> lines = File.ReadAllLines(filePath).ToList();
                 foreach (string line in lines)
                 {
@@ -48,7 +62,7 @@ namespace Random_Selector
                     student.LastName = entries[2];
                     students.Add(student);
                 }            
-            }
+            //}
             return students;
         }
 
