@@ -25,33 +25,29 @@ namespace Random_Selector
     {
         string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
         //string filePath = @"C:\Intec\RandomSelector\Students.txt";
-        List<Student> students = new List<Student>();
-        List<Student> studentsGroup = new List<Student>();
+
+        List<Student> students = new List<Student>(); // main list
+        List<Student> studentsGroup = new List<Student>(); // grouped list
         public MainWindow()
         {
             InitializeComponent();
             LoadStudents();
         }
-
+        // Method loading all the students in the listbox
         private void LoadStudents()
         {
+            // add content of CSV-file to listbox
             lstAllStudents.Items.Clear();
-            if (!File.Exists(filePath))
+            students = GetStudentsFromFile().ToList();
+            foreach (var student in students)
             {
-                MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
+                lstAllStudents.Items.Add(student);
             }
-            else
-            {
-                students = GetStudentsFromFile();
-                foreach (var student in students)
-                {
-                    lstAllStudents.Items.Add(student);
-                }
-            }
-
         }
-        private List<Student> GetStudentsFromFile()
+        // Method reading all the students in the CSV-file and puts them in a list
+        private IEnumerable<Student> GetStudentsFromFile()
         {
+            // If CSV-file exists the read content and assign the values to the corresponding student properties
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
@@ -71,7 +67,6 @@ namespace Random_Selector
             }
             return students;
         }
-
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
             Student student = new Student();
@@ -79,27 +74,29 @@ namespace Random_Selector
             student.FirstName = txtFirstName.Text;
             student.LastName = txtLastName.Text;
             InsertStudent(student);
-        }
-        private void InsertStudent(Student student)
-        {
-            //if (!File.Exists(filePath))
-            //{
-            //    File.Create(filePath);
-            //}
-            //else
-            //{
-            using (StreamWriter writer = new StreamWriter(filePath, true))
-            {
-                writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
-            }
-            //}
             ClearFields();
         }
-
+        // Method inserting student inputted in the textboxes
+        private void InsertStudent(Student student)
+        {
+            // Create file if not already exists in the given directory
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath);
+            }
+            else
+            {
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                }
+            }
+        }
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
             GenerateGroup();
         }
+        // Method generates a group based on value inputted in textbox
         private void GenerateGroup()
         {
             lstGroup.Items.Clear();
@@ -107,46 +104,50 @@ namespace Random_Selector
             int counter = int.Parse(txtGroupText.Text);
 
             Random random = new Random();
-
+            // Get all level 1 students and put them into list
             var level1Students = students.Where(s => s.Level == 1).ToList();
-            int index = random.Next(0, level1Students.Count-1);
+            // Get one level 1 student randomly in the level1Students list
+            int index = random.Next(0, level1Students.Count - 1);
             studentsGroup.Add(level1Students[index]);
             students.RemoveAt(index);
-
+            // counter - 1 because student with level 1 is added to the group.
             counter = counter - 1;
-
+            // Add remaining students randomly to the group on condition that they are not of level 1.
             for (int i = 0; i < counter; i++)
             {
-                int randomindex = random.Next(0, students.Count-1);
+                int randomindex = random.Next(0, students.Count - 1);
                 if (students[randomindex].Level == 1)
                 {
-                    i--;
-                   continue;                  
+                    i--; // decrement i because the to rest the loopcounter to the value before encoutering a level 1 student
+                    continue;
                 }
                 else
                 {
-                    studentsGroup.Add(students[randomindex]);
-                    students.RemoveAt(randomindex);
-                }           
+                    studentsGroup.Add(students[randomindex]); // add student to the group
+                    students.RemoveAt(randomindex); // remove the student from the main list
+                }
             }
             LoadGroup();
             LoadStudents();
             studentsGroup.Clear();
-           
+
         }
+        // Method loading the randomly grouped students in the listbox
         private void LoadGroup()
         {
             lstGroup.Items.Clear();
             foreach (var student in studentsGroup)
             {
                 lstGroup.Items.Add(student);
-            }     
+            }
         }
+        // Method clearing the textboxes
         private void ClearFields()
         {
             txtLevel.Text = string.Empty;
             txtFirstName.Text = string.Empty;
             txtLastName.Text = string.Empty;
+            txtGroupText.Text = string.Empty;
         }
     }
 }
