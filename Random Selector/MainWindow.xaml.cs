@@ -24,7 +24,7 @@ namespace Random_Selector
     {
         string filePath = @"C:\Intec\RandomSelector\Students.txt";
         List<Student> students = new List<Student>();
-        List<Student> studentsGroup = new List<Student>();    
+        List<Student> studentsGroup = new List<Student>();
         public MainWindow()
         {
             InitializeComponent();
@@ -37,21 +37,24 @@ namespace Random_Selector
             {
                 MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
             }
-            else { }
-            foreach (var student in students)
+            else
             {
-                lstAllStudents.Items.Add(student);
+                students = GetStudentsFromFile();
+                foreach (var student in students)
+                {
+                    lstAllStudents.Items.Add(student);
+                }
             }
-        
+
         }
-        private List<Student> ReadFromFile()
+        private List<Student> GetStudentsFromFile()
         {
-            //if (!File.Exists(filePath))
-            //{
-            //    MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
-            //}
-            //else
-            //{
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
+            }
+            else
+            {
                 IEnumerable<string> lines = File.ReadAllLines(filePath).ToList();
                 foreach (string line in lines)
                 {
@@ -61,8 +64,8 @@ namespace Random_Selector
                     student.FirstName = entries[1];
                     student.LastName = entries[2];
                     students.Add(student);
-                }            
-            //}
+                }
+            }
             return students;
         }
 
@@ -70,23 +73,62 @@ namespace Random_Selector
         {
             Student student = new Student();
             student.Level = int.Parse(txtLevel.Text);
-            student.FirstName = txtFirstName.Text;  
-            student.LastName = txtFirstName.Text;
+            student.FirstName = txtFirstName.Text;
+            student.LastName = txtLastName.Text;
             InsertStudent(student);
         }
         private void InsertStudent(Student student)
         {
-            if (!File.Exists(filePath))
+            //if (!File.Exists(filePath))
+            //{
+            //    File.Create(filePath);
+            //}
+            //else
+            //{
+            using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                File.Create(filePath);
+                writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
             }
-            else
+            //}
+            ClearFields();
+        }
+
+        private void btnGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            GenerateGroup();
+        }
+        private void GenerateGroup()
+        {
+            int counter = int.Parse(txtGroupText.Text);
+
+            Random random = new Random();
+
+            var level1Students = students.Where(s => s.Level == 1).ToList();
+            int index = random.Next(0, level1Students.Count);
+            studentsGroup.Add(level1Students[index]);
+            students.RemoveAt(index);
+            counter = counter - 1;
+
+            List<Student> resterendeStudenten = new List<Student>();
+            for (int i = 0; i < counter; i++)
             {
-                using (StreamWriter writer = new StreamWriter(filePath, true))
+                resterendeStudenten[i] = students[random.Next(0, students.Count)];
+            }
+            studentsGroup.AddRange(resterendeStudenten);
+
+            foreach (Student student in studentsGroup)
+            {
+                if (student.Level != 1)
                 {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                    lstGroup.Items.Add(student);
                 }
             }
+        }
+        private void ClearFields()
+        {
+            txtLevel.Text = string.Empty;
+            txtFirstName.Text = string.Empty; 
+            txtLastName.Text = string.Empty;
         }
     }
 }
