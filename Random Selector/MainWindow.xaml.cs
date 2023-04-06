@@ -38,6 +38,7 @@ namespace Random_Selector
         {
             // add content of CSV-file to listbox
             lstAllStudents.Items.Clear();
+            students.Clear();
             students = GetStudentsFromFile().ToList();
             foreach (var student in students)
             {
@@ -127,11 +128,25 @@ namespace Random_Selector
                     students.RemoveAt(randomindex); // remove the student from the main list
                 }
             }
+            UpdateCSVStudents();
             LoadGroup();
             LoadStudents();
-            studentsGroup.Clear();
+        ;
 
         }
+        // Method updating CSV-file by removing the grouped students
+        private void UpdateCSVStudents()
+        {
+            // Append = false, because generating renewed CSV-file of students 
+            using (StreamWriter writer = new StreamWriter(filePath, false))
+            {
+                foreach (var student in students)
+                {
+                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                }
+            }
+        }
+        
         // Method loading the randomly grouped students in the listbox
         private void LoadGroup()
         {
@@ -148,6 +163,43 @@ namespace Random_Selector
             txtFirstName.Text = string.Empty;
             txtLastName.Text = string.Empty;
             txtGroupText.Text = string.Empty;
+        }
+        private void btnWriteCSVGroupedStudents_Click(object sender, RoutedEventArgs e)
+        {
+            WriteCSVGroupedStudents();
+            ClearFields();
+            lstGroup.Items.Clear();
+            studentsGroup.Clear();
+            LoadStudents();
+        }
+        // Method writing grouped students to new CSV-file
+        private int groupnumber = 0;
+        private void WriteCSVGroupedStudents()
+        {
+            groupnumber++;
+            string file = Directory.GetCurrentDirectory() + "\\Group" + groupnumber + ".txt";
+            if (!File.Exists(file))
+            {
+                File.Create(file);
+            }
+            else
+            {
+                using (StreamWriter writer = new StreamWriter(file, true))
+                {
+                    foreach (var student in studentsGroup)
+                    {
+                        writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                    }
+                    if (File.Exists(file))
+                    {
+                        MessageBox.Show("CSV Gropued Students has been written");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error!\nThe CSV has not been written!");
+                    }
+                }      
+            }
         }
     }
 }
