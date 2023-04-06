@@ -33,6 +33,7 @@ namespace Random_Selector
 
         private void LoadStudents()
         {
+            lstAllStudents.Items.Clear();
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
@@ -99,35 +100,47 @@ namespace Random_Selector
         }
         private void GenerateGroup()
         {
+            lstGroup.Items.Clear();
             int counter = int.Parse(txtGroupText.Text);
 
             Random random = new Random();
 
             var level1Students = students.Where(s => s.Level == 1).ToList();
-            int index = random.Next(0, level1Students.Count);
+            int index = random.Next(0, level1Students.Count-1);
             studentsGroup.Add(level1Students[index]);
             students.RemoveAt(index);
+
             counter = counter - 1;
 
-            List<Student> resterendeStudenten = new List<Student>();
             for (int i = 0; i < counter; i++)
             {
-                resterendeStudenten[i] = students[random.Next(0, students.Count)];
-            }
-            studentsGroup.AddRange(resterendeStudenten);
-
-            foreach (Student student in studentsGroup)
-            {
-                if (student.Level != 1)
+                int randomindex = random.Next(0, students.Count-1);
+                if (students[randomindex].Level == 1)
                 {
-                    lstGroup.Items.Add(student);
+                    i--;
+                   continue;                  
                 }
+                else
+                {
+                    studentsGroup.Add(students[randomindex]);
+                    students.RemoveAt(randomindex);
+                }           
+            }
+            LoadGroup();
+            LoadStudents();
+        }
+        private void LoadGroup()
+        {
+            lstGroup.Items.Clear();
+            foreach (var student in studentsGroup)
+            {
+                lstGroup.Items.Add(student);
             }
         }
         private void ClearFields()
         {
             txtLevel.Text = string.Empty;
-            txtFirstName.Text = string.Empty; 
+            txtFirstName.Text = string.Empty;
             txtLastName.Text = string.Empty;
         }
     }
