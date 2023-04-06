@@ -101,6 +101,7 @@ namespace Random_Selector
         private void GenerateGroup()
         {
             lstGroup.Items.Clear();
+
             int counter = int.Parse(txtGroupText.Text);
 
             Random random = new Random();
@@ -128,6 +129,8 @@ namespace Random_Selector
             }
             LoadGroup();
             LoadStudents();
+            studentsGroup.Clear();
+           
         }
         private void LoadGroup()
         {
@@ -135,7 +138,7 @@ namespace Random_Selector
             foreach (var student in studentsGroup)
             {
                 lstGroup.Items.Add(student);
-            }
+            }     
         }
         private void ClearFields()
         {
