@@ -92,6 +92,7 @@ namespace Random_Selector
                     writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
                 }
             }
+            LoadStudents();
         }
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
@@ -106,33 +107,50 @@ namespace Random_Selector
 
             Random random = new Random();
             // Get all level 1 students and put them into list
+
+
+
             var level1Students = students.Where(s => s.Level == 1).ToList();
-            // Get one level 1 student randomly in the level1Students list
-            int index = random.Next(0, level1Students.Count - 1);
-            studentsGroup.Add(level1Students[index]);
-            students.RemoveAt(index);
-            // counter - 1 because student with level 1 is added to the group.
-            counter = counter - 1;
-            // Add remaining students randomly to the group on condition that they are not of level 1.
-            for (int i = 0; i < counter; i++)
+            if (level1Students.Count == 0)
             {
-                int randomindex = random.Next(0, students.Count - 1);
-                if (students[randomindex].Level == 1)
+                MessageBox.Show("There are no level 1 students.\nPlease insert one!");
+            }
+            else
+            {   // Get one level 1 student randomly in the level1Students list
+                int index = random.Next(0, level1Students.Count);
+                studentsGroup.Add(level1Students[index]);
+                var result = students.IndexOf(students.Where(s => s.FirstName == level1Students[index].FirstName &&
+                s.LastName == level1Students[index].LastName).FirstOrDefault());
+                students.RemoveAt(result);
+                if (students.Count == 0)
                 {
-                    i--; // decrement i because the to rest the loopcounter to the value before encoutering a level 1 student
-                    continue;
+                    MessageBox.Show("There are no non-level 1 students to group.\nPlease insert new non-level 1 students!");
+                    return;
                 }
                 else
                 {
-                    studentsGroup.Add(students[randomindex]); // add student to the group
-                    students.RemoveAt(randomindex); // remove the student from the main list
+                    // counter - 1 because student with level 1 is added to the group.
+                    counter = counter - 1;
+                    // Add remaining students randomly to the group on condition that they are not of level 1.
+                    for (int i = 0; i < counter; i++)
+                    {
+                        int randomindex = random.Next(0, students.Count);
+                        if (students[randomindex].Level == 1)
+                        {
+                            i--; // decrement i because the to rest the loopcounter to the value before encoutering a level 1 student
+                            continue;
+                        }
+                        else
+                        {
+                            studentsGroup.Add(students[randomindex]); // add student to the group
+                            students.RemoveAt(randomindex); // remove the student from the main list
+                        }
+                    }
                 }
             }
             UpdateCSVStudents();
             LoadGroup();
             LoadStudents();
-        ;
-
         }
         // Method updating CSV-file by removing the grouped students
         private void UpdateCSVStudents()
@@ -146,7 +164,7 @@ namespace Random_Selector
                 }
             }
         }
-        
+
         // Method loading the randomly grouped students in the listbox
         private void LoadGroup()
         {
@@ -173,16 +191,12 @@ namespace Random_Selector
             LoadStudents();
         }
         // Method writing grouped students to new CSV-file
-        private int groupnumber = 0;
+        private static int groupnumber = 0;
         private void WriteCSVGroupedStudents()
         {
             groupnumber++;
             string file = Directory.GetCurrentDirectory() + "\\Group" + groupnumber + ".txt";
-            if (!File.Exists(file))
-            {
-                File.Create(file);
-            }
-            else
+            if (File.Exists(file))
             {
                 using (StreamWriter writer = new StreamWriter(file, true))
                 {
@@ -192,13 +206,17 @@ namespace Random_Selector
                     }
                     if (File.Exists(file))
                     {
-                        MessageBox.Show("CSV Gropued Students has been written");
+                        MessageBox.Show("CSV Grouped Students has been written");
                     }
                     else
                     {
                         MessageBox.Show("Error!\nThe CSV has not been written!");
                     }
-                }      
+                }
+            }
+            else
+            {
+                File.Create(file);
             }
         }
     }
