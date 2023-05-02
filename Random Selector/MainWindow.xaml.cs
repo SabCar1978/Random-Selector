@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,17 +26,19 @@ namespace Random_Selector
     public partial class MainWindow : Window
     {
         string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
-        //string filePath = @"C:\Intec\RandomSelector\Students.txt";
 
         List<Student> students = new List<Student>(); // main list
         List<Student> studentsGroup = new List<Student>(); // grouped list
         public MainWindow()
         {
             InitializeComponent();
-            LoadStudents();
+            if (LoadStudents() == 0)
+            {
+                lstAllStudents.Items.Add("Please insert students!");
+            }
         }
         // Method loading all the students in the listbox
-        private void LoadStudents()
+        private int LoadStudents()
         {
             // add content of CSV-file to listbox
             lstAllStudents.Items.Clear();
@@ -44,14 +48,16 @@ namespace Random_Selector
             {
                 lstAllStudents.Items.Add(student);
             }
+            return students.Count;
         }
         // Method reading all the students in the CSV-file and puts them in a list
         private IEnumerable<Student> GetStudentsFromFile()
         {
+
             // If CSV-file exists the read content and assign the values to the corresponding student properties
             if (!File.Exists(filePath))
             {
-                MessageBox.Show("Students Database has no records.\nPlease insert a student record!");
+                File.Create(filePath);
             }
             else
             {
@@ -68,8 +74,9 @@ namespace Random_Selector
             }
             return students;
         }
-        private void btnInsert_Click(object sender, RoutedEventArgs e)
+        private async void btnInsert_Click(object sender, RoutedEventArgs e)
         {
+            lstAllStudents.Items.Clear();
             Student student = new Student();
             student.Level = int.Parse(txtLevel.Text);
             student.FirstName = txtFirstName.Text;
