@@ -32,22 +32,35 @@ namespace Random_Selector
         public MainWindow()
         {
             InitializeComponent();
-            if (LoadStudents() == 0)
+            LoadStudents();
+            //if (LoadStudents() == 0)
+            //{
+            //    lstAllStudents.Items.Add("Please insert students!");
+            //}
+        }
+        // Method loading students from textfile into listbox.
+        private void LoadStudents()
+        {
+            // if there are no students in the file, show message in listbox
+            if (CheckStudentsCount() == 0)
             {
                 lstAllStudents.Items.Add("Please insert students!");
             }
+            else
+            {
+                foreach (var student in students)
+                {
+                    lstAllStudents.Items.Add(student);
+                }
+            }
         }
-        // Method loading all the students in the listbox
-        private int LoadStudents()
+        // Method checking if there are students in the textfile
+        private int CheckStudentsCount()
         {
             // add content of CSV-file to listbox
             lstAllStudents.Items.Clear();
             students.Clear();
             students = GetStudentsFromFile().ToList();
-            foreach (var student in students)
-            {
-                lstAllStudents.Items.Add(student);
-            }
             return students.Count;
         }
         // Method reading all the students in the CSV-file and puts them in a list
@@ -153,7 +166,7 @@ namespace Random_Selector
                                 studentsGroup.Add(students[randomindex]); // add student to the group
                                 students.RemoveAt(randomindex); // remove the student from the main list
                                 if (students.Count == 0 && i != counter - 1)
-                                {
+                                { 
                                     MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
                                     break;
                                 }
