@@ -81,11 +81,11 @@ namespace Random_Selector
             student.Level = int.Parse(txtLevel.Text);
             student.FirstName = txtFirstName.Text;
             student.LastName = txtLastName.Text;
-            InsertStudent(student);
+            await InsertStudentAsync(student);
             ClearFields();
         }
         // Method inserting student inputted in the textboxes
-        private void InsertStudent(Student student)
+        private async Task InsertStudentAsync(Student student)
         {
             // Create file if not already exists in the given directory
             if (!File.Exists(filePath))
@@ -96,17 +96,17 @@ namespace Random_Selector
             {
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                    await writer.WriteLineAsync(student.Level + "," + student.FirstName + "," + student.LastName);
                 }
             }
             LoadStudents();
         }
-        private void btnGenerate_Click(object sender, RoutedEventArgs e)
+        private async void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            GenerateGroup();
+            await GenerateGroup();
         }
         // Method generates a group based on value inputted in textbox
-        private void GenerateGroup()
+        private async Task GenerateGroup()
         {
             lstGroup.Items.Clear();
 
@@ -162,19 +162,19 @@ namespace Random_Selector
                     }
                 }
             }
-            UpdateCSVStudents();
+            await UpdateCSVStudentsAsync ();
             LoadGroup();
             LoadStudents();
         }
         // Method updating CSV-file by removing the grouped students
-        private void UpdateCSVStudents()
+        private async Task UpdateCSVStudentsAsync()
         {
             // Append = false, because generating renewed CSV-file of students 
             using (StreamWriter writer = new StreamWriter(filePath, false))
             {
                 foreach (var student in students)
                 {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                    await writer.WriteLineAsync(student.Level + "," + student.FirstName + "," + student.LastName);
                 }
             }
         }
@@ -195,9 +195,9 @@ namespace Random_Selector
             txtLastName.Text = string.Empty;
             txtGroupText.Text = string.Empty;
         }
-        private void btnWriteCSVGroupedStudents_Click(object sender, RoutedEventArgs e)
+        private async void btnWriteCSVGroupedStudents_Click(object sender, RoutedEventArgs e)
         {
-            WriteCSVGroupedStudents();
+            await WriteCSVGroupedStudentsAsync();
             ClearFields();
             lstGroup.Items.Clear();
             studentsGroup.Clear();
@@ -205,7 +205,7 @@ namespace Random_Selector
         }
         // Method writing grouped students to new CSV-file
         private static int groupnumber = 0;
-        private void WriteCSVGroupedStudents()
+        private async Task WriteCSVGroupedStudentsAsync()
         {
             groupnumber++;
             string file = Directory.GetCurrentDirectory() + "\\Group" + groupnumber + ".txt";
@@ -214,7 +214,7 @@ namespace Random_Selector
             {
                 foreach (var student in studentsGroup)
                 {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                   await writer.WriteLineAsync(student.Level + "," + student.FirstName + "," + student.LastName);
                 }
                 if (File.Exists(file))
                 {
