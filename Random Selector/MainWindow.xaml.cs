@@ -25,10 +25,18 @@ namespace Random_Selector
     /// </summary>
     public partial class MainWindow : Window
     {
+        // filepath locatede in bin directory of this project
         string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
 
-        List<Student> students = new List<Student>(); // main list
-        List<Student> studentsGroup = new List<Student>(); // grouped list
+        // Students list will show in listbox and is used to write(update, delete) to the CSV textfile Students.txt
+        List<Student> students = new List<Student>();
+
+        // StudentsGroup list will show in other listbox and is used to write(update, delete) to the CSV textfile GroepXX.txt
+        List<Student> studentsGroup = new List<Student>();
+
+        // declaring variable that represents the index of the selected student
+        int selectedStudentIndex = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -87,11 +95,18 @@ namespace Random_Selector
         {
             lstAllStudents.Items.Clear();
             Student student = new Student();
-            student.Level = int.Parse(txtLevel.Text);
-            student.FirstName = txtFirstName.Text;
-            student.LastName = txtLastName.Text;
-            await InsertStudentAsync(student);
-            ClearFields();
+            if (String.IsNullOrEmpty(txtLevel.Text) || String.IsNullOrEmpty(txtFirstName.Text) || String.IsNullOrEmpty(txtLastName.Text))
+            {
+                MessageBox.Show("Please, fill in all required fields!");
+            }
+            else
+            {
+                student.Level = int.Parse(txtLevel.Text);
+                student.FirstName = txtFirstName.Text;
+                student.LastName = txtLastName.Text;
+                await InsertStudentAsync(student);
+                ClearFields();
+            }
         }
         // Method inserting student inputted in the textboxes
         private async Task InsertStudentAsync(Student student)
@@ -122,7 +137,9 @@ namespace Random_Selector
             int counter = int.Parse(txtGroupText.Text);
             // Checking if there are enough students to group according inputted number
             if (students.Count < counter)
-            { MessageBox.Show("Not enough students left to group"); }
+            { 
+                MessageBox.Show("Not enough students left to group"); 
+            }
             else
             {
                 Random random = new Random();
@@ -209,7 +226,7 @@ namespace Random_Selector
         {
             await WriteCSVGroupedStudentsAsync();
             ClearFields();
-            //lstGroup.Items.Clear();
+            lstGroup.Items.Clear();
             studentsGroup.Clear();
             LoadStudents();
         }
@@ -237,8 +254,6 @@ namespace Random_Selector
             }
         }
         // Showing selected student from the listbox in the corresponding textboxes.
-        // declaring variable that represents the index of the selected student
-        int selectedStudentIndex = 0;    
         private void lstAllStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Student selectedStudent = new Student();
@@ -252,33 +267,27 @@ namespace Random_Selector
             selectedStudentIndex = lstAllStudents.SelectedIndex;
         }
         // Click on btnUpdate will update the textfile with the changed values for the selected student and refresh the listbox
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
-        { 
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
             Student updatedStudent = new Student();
             updatedStudent.Level = int.Parse(txtLevel.Text);
             updatedStudent.FirstName = txtFirstName.Text;
             updatedStudent.LastName = txtLastName.Text;
-            UpdateStudent(updatedStudent);
+            await UpdateStudent(updatedStudent);
             ClearFields();
-            //lstGroup.Items.Clear();
             LoadStudents();
         }
         // Method to alter the students list with the updated values of the selected student.
         // The updated list will be written to textfile in order to update the textfile. 
-        private void UpdateStudent(Student updatedstudent)
+        private async Task UpdateStudent(Student updatedstudent)
         {
             // update students list with the changed student values based on its index retrieved fr
             students[selectedStudentIndex] = updatedstudent;
-            using (StreamWriter writer = new StreamWriter(filePath, false))
-            {
-                foreach (Student student in students)
-                {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
-                }
-            }    
+            await UpdateCSVStudentsAsync();
         }
-
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        // Click btnDelete will show a message to confirm if the user wants to delete the selected student.
+        // If yes, it performs the deletion of the student from list and textfile
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show($"Do you want to delete student:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
                                                       "Confirmation",
@@ -287,23 +296,16 @@ namespace Random_Selector
 
             if (result == MessageBoxResult.Yes)
             {
-                DeleteStudent(selectedStudentIndex);
+                await DeleteStudent(selectedStudentIndex);
                 ClearFields();
                 LoadStudents();
             }
         }
-
-        private void DeleteStudent(int index)
+        //Delete the student from list and textfile based on index retrieved from selected student in listbox
+        private async Task DeleteStudent(int index)
         {
             students.RemoveAt(index);
-            using (StreamWriter writer = new StreamWriter(filePath, false))
-            {
-                foreach (Student student in students)
-                {
-                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
-                }
-            }
+            await UpdateCSVStudentsAsync();
         }
-
     }
 }
