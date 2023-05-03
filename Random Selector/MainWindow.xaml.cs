@@ -33,10 +33,6 @@ namespace Random_Selector
         {
             InitializeComponent();
             LoadStudents();
-            //if (LoadStudents() == 0)
-            //{
-            //    lstAllStudents.Items.Add("Please insert students!");
-            //}
         }
         // Method loading students from textfile into listbox.
         private void LoadStudents()
@@ -166,7 +162,7 @@ namespace Random_Selector
                                 studentsGroup.Add(students[randomindex]); // add student to the group
                                 students.RemoveAt(randomindex); // remove the student from the main list
                                 if (students.Count == 0 && i != counter - 1)
-                                { 
+                                {
                                     MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
                                     break;
                                 }
@@ -175,7 +171,7 @@ namespace Random_Selector
                     }
                 }
             }
-            await UpdateCSVStudentsAsync ();
+            await UpdateCSVStudentsAsync();
             LoadGroup();
             LoadStudents();
         }
@@ -208,11 +204,12 @@ namespace Random_Selector
             txtLastName.Text = string.Empty;
             txtGroupText.Text = string.Empty;
         }
+        // Click on btnWriteCSVGroupedStudents will write the grouped student to new CSV textfile for the specific group
         private async void btnWriteCSVGroupedStudents_Click(object sender, RoutedEventArgs e)
         {
             await WriteCSVGroupedStudentsAsync();
             ClearFields();
-            lstGroup.Items.Clear();
+            //lstGroup.Items.Clear();
             studentsGroup.Clear();
             LoadStudents();
         }
@@ -227,7 +224,7 @@ namespace Random_Selector
             {
                 foreach (var student in studentsGroup)
                 {
-                   await writer.WriteLineAsync(student.Level + "," + student.FirstName + "," + student.LastName);
+                    await writer.WriteLineAsync(student.Level + "," + student.FirstName + "," + student.LastName);
                 }
                 if (File.Exists(file))
                 {
@@ -239,5 +236,74 @@ namespace Random_Selector
                 }
             }
         }
+        // Showing selected student from the listbox in the corresponding textboxes.
+        // declaring variable that represents the index of the selected student
+        int selectedStudentIndex = 0;    
+        private void lstAllStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Student selectedStudent = new Student();
+            selectedStudent = lstAllStudents.SelectedItem as Student;
+            if (selectedStudent != null)
+            {
+                txtLevel.Text = selectedStudent.Level.ToString();
+                txtFirstName.Text = selectedStudent.FirstName;
+                txtLastName.Text = selectedStudent.LastName;
+            }
+            selectedStudentIndex = lstAllStudents.SelectedIndex;
+        }
+        // Click on btnUpdate will update the textfile with the changed values for the selected student and refresh the listbox
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        { 
+            Student updatedStudent = new Student();
+            updatedStudent.Level = int.Parse(txtLevel.Text);
+            updatedStudent.FirstName = txtFirstName.Text;
+            updatedStudent.LastName = txtLastName.Text;
+            UpdateStudent(updatedStudent);
+            ClearFields();
+            //lstGroup.Items.Clear();
+            LoadStudents();
+        }
+        // Method to alter the students list with the updated values of the selected student.
+        // The updated list will be written to textfile in order to update the textfile. 
+        private void UpdateStudent(Student updatedstudent)
+        {
+            // update students list with the changed student values based on its index retrieved fr
+            students[selectedStudentIndex] = updatedstudent;
+            using (StreamWriter writer = new StreamWriter(filePath, false))
+            {
+                foreach (Student student in students)
+                {
+                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                }
+            }    
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show($"Do you want to delete student:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
+                                                      "Confirmation",
+                                                      MessageBoxButton.YesNo,
+                                                      MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                DeleteStudent(selectedStudentIndex);
+                ClearFields();
+                LoadStudents();
+            }
+        }
+
+        private void DeleteStudent(int index)
+        {
+            students.RemoveAt(index);
+            using (StreamWriter writer = new StreamWriter(filePath, false))
+            {
+                foreach (Student student in students)
+                {
+                    writer.WriteLine(student.Level + "," + student.FirstName + "," + student.LastName);
+                }
+            }
+        }
+
     }
 }
