@@ -61,6 +61,6 @@ Voorbeeld
 2,Mustafa,Gorissen<LineBreak />
 4,Atilla,Vandersmissen<LineBreak />
 etc.
-        </TextBlock>   
+        </TextBlock>
     </Grid>
 </Window>
