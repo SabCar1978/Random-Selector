@@ -307,5 +307,11 @@ namespace Random_Selector
             students.RemoveAt(index);
             await UpdateCSVStudentsAsync();
         }
+
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+            WindowHelp windowHelp = new WindowHelp();
+            windowHelp.Show();
+        }
     }
 }

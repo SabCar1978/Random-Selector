@@ -75,6 +75,15 @@
         <Label x:Name="lblTitle" Content="Group Students App" Margin="120,0,0,0" VerticalAlignment="Top" FontSize="28" Foreground="Black" HorizontalAlignment="Left" FontWeight="Bold" Grid.Column="2" RenderTransformOrigin="0.399,0.403"/>
         <Label x:Name="lblStudent" Content="Student" HorizontalAlignment="Left" Margin="35,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.053,0.079" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2"/>
         <Label x:Name="lblGenereateGroup" Content="Generate Group" HorizontalAlignment="Left" Margin="35,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="3"/>
+        <Button Grid.Column="2" Content="Button" HorizontalAlignment="Left" Height="0" Margin="521,24,0,0" VerticalAlignment="Top" Width="5"/>
+        <Button x:Name="btnHelp" Grid.Column="2" Content="Help" HorizontalAlignment="Left" Margin="491,13,0,0" VerticalAlignment="Top" Width="115" FontSize="14" FontWeight="Bold" Click="btnHelp_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC48AE0" Offset="0.304"/>
+                    <GradientStop Color="White" Offset="0.871"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>
