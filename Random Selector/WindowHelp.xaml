@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Random_Selector"
         mc:Ignorable="d"
-        Title="WindowHelp" Height="450" Width="800" SizeToContent="WidthAndHeight">
+        Title="Help" Height="800" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -22,6 +22,45 @@
                 <GradientStop Color="#FFF7D869" Offset="1"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Bij de inladen van de app zal de hoofdlistbox ingevuld worden met worden met alle studenten van het tekstbestand. Als het tekstbestand niet bestaat of leeg is, zal deze aangemaakt worden en dan ingevuld worden met de info(level,voornaam,achternaam) over de studenten. De info wordt ingevoerd in de daarvoor bestemde textboxen. Op click van button Generate wordt een groep gemaakt van de studenten. Het aantal studenten wordt ingevoerd in een textbox. De selectie gebeurd willekeurig, maar zal altijd 1 &quot;level 1&quot; student bevatten en wordt verder opgevuld met studenten uit andere levels. Vb. Level,Voornaam,Achternaam 1,Jon,Adams 1,Jack,Jackson 2,Mustafa,Gorissen 3,Atilla,Vandersmissen 2,Quinten,Declerck 1,Pearl,Desmet 3,Kenan,Kurda 2,Benedict,Cumberbatch 3,Manuel,Lopes 1,Ilse,Degroote 2,Cindy,Deschrijver 2,Ruud,Kenis Programma kan meerdere groepen kunnen maken, maar een student mag enkel tot 1 groep behoren." VerticalAlignment="Top" Width="350" Height="375" FontSize="14" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="700" FontSize="14" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2">
+             <Bold>Gebruiksaanwijzing</Bold>
+<LineBreak /><LineBreak />
+Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Students.txt".
+<LineBreak /><LineBreak />
+Als "Students.txt" niet bestaat zal er automatisch een leeg tekstbestand aangemaakt worden.<LineBreak /> 
+In de rechterlijst van de app verschijnt dan "Please insert students".
+<LineBreak /><LineBreak />
+Als "Students.txt" wel bestaat maar leeg is, verschijnt in de rechterlijst van de app "Please insert students". 
+<LineBreak /><LineBreak />
+In de tekstvakken links dient de info (level, voornaam, achternaam) over de student ingevuld te worden.<LineBreak />
+Toevoegen van de student aan het tekstbestand "Students.txt" gebeurt door op de button "Insert" te klikken.<LineBreak />
+De toegevoegde student verschijnt ook in de rechterlijst van de app.
+<LineBreak /><LineBreak />
+Om de info van een student te wijzigen: 
+Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.
+Wijzig de info in de desbetreffende tekstvakken links.
+Klik op de button "Update" om de wijziging door te voeren.
+<LineBreak /><LineBreak />
+Om een student te verwijderen:<LineBreak /> 
+Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.<LineBreak />
+Info van de student wordt getoond in de tekstvakken links.<LineBreak />
+Klik op de button "Delete" om de student te verwijderen.<LineBreak />
+<LineBreak /><LineBreak />
+Genereren van een groep gebeurt door in het tekstvak het gewenste aantal studenten in te voeren.<LineBreak />
+Klikken op de button "Generate Group" zal automatisch een groep aanmaken bestaande uit 1 'level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
+De gemaakte groep verschijnt in de linkerlijst van de app.<LineBreak />
+Klikken op de button "WriteToCSV" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
+Die studenten verdwijnen ook uit "Students.txt" en de rechterlijst van de app. 
+ <LineBreak /> <LineBreak />
+De tekstbestanden zijn Comma Separated Values (CSV):
+<LineBreak />
+Voorbeeld 
+(Level,Voornaam,Achternaam)<LineBreak />
+1,Jon,Adams<LineBreak />
+3,Jack,Jackson<LineBreak />
+2,Mustafa,Gorissen<LineBreak />
+4,Atilla,Vandersmissen<LineBreak />
+etc.
+        </TextBlock>   
     </Grid>
 </Window>
