@@ -299,8 +299,8 @@ namespace Random_Selector
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
-            WindowHelp windowHelp = new WindowHelp();
-            windowHelp.Show();
+            WindowHelp windowHelp = new WindowHelp(this);
+            windowHelp.ShowDialog();
         }
     }
 }

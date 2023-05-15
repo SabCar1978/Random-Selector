@@ -17,11 +17,20 @@ namespace Random_Selector
     /// <summary>
     /// Interaction logic for WindowHelp.xaml
     /// </summary>
+ 
     public partial class WindowHelp : Window
     {
-        public WindowHelp()
+        private readonly MainWindow _mainWindow;
+        public WindowHelp(MainWindow mainWindow)
         {
             InitializeComponent();
+            _mainWindow = mainWindow; 
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            _mainWindow.btnHelp.IsEnabled = true;
+            this.Close();
         }
     }
 }

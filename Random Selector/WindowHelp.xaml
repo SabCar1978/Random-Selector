@@ -22,7 +22,7 @@
                 <GradientStop Color="#FFF7D869" Offset="1"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="700" FontSize="14" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2">
+        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="720" FontSize="14" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2">
              <Bold>Gebruiksaanwijzing</Bold>
 <LineBreak /><LineBreak />
 Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Students.txt".
@@ -44,7 +44,7 @@ Klik op de button "Update" om de wijziging door te voeren.
 Om een student te verwijderen:<LineBreak /> 
 Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.<LineBreak />
 Info van de student wordt getoond in de tekstvakken links.<LineBreak />
-Klik op de button "Delete" om de student te verwijderen.<LineBreak />
+Klik op de button "Delete" om de student te verwijderen.
 <LineBreak /><LineBreak />
 Genereren van een groep gebeurt door in het tekstvak het gewenste aantal studenten in te voeren.<LineBreak />
 Klikken op de button "Generate Group" zal automatisch een groep aanmaken bestaande uit 1 'level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
@@ -62,5 +62,13 @@ Voorbeeld
 4,Atilla,Vandersmissen<LineBreak />
 etc.
         </TextBlock>
+        <Button x:Name="btnClose" Grid.Column="3" Content="Close" HorizontalAlignment="Center" Margin="0,681,0,0" VerticalAlignment="Top" Width="94" Height="29" FontSize="14" FontWeight="Bold" Click="btnClose_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF64769A"/>
+                    <GradientStop Color="WhiteSmoke" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
