@@ -14,9 +14,8 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF2C36C5" Offset="1"/>
-                <GradientStop Color="#FFC9E2EF" Offset="0"/>
-                <GradientStop Color="#FF7D9BE6" Offset="0.954"/>
+                <GradientStop Color="#FFE5AC71" Offset="0"/>
+                <GradientStop Color="#FFCCCE37" Offset="0.991"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Label x:Name="lblLevel" Content="Level :" HorizontalAlignment="Left" Margin="35,90,0,0" VerticalAlignment="Top" Foreground="Black" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0.659,0.033" FontStyle="Italic"/>
@@ -79,8 +78,8 @@
         <Button x:Name="btnHelp" Grid.Column="2" Content="Help" HorizontalAlignment="Left" Margin="491,13,0,0" VerticalAlignment="Top" Width="115" FontSize="14" FontWeight="Bold" Click="btnHelp_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFC48AE0" Offset="0.304"/>
-                    <GradientStop Color="White" Offset="0.871"/>
+                    <GradientStop Color="#FFFAF7ED" Offset="0"/>
+                    <GradientStop Color="#FFB4D1CF" Offset="1"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
