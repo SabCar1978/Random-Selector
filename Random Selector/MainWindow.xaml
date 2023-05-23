@@ -14,8 +14,8 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFE5AC71" Offset="0"/>
-                <GradientStop Color="#FFCCCE37" Offset="0.991"/>
+                <GradientStop Color="#FFDAB041" Offset="1"/>
+                <GradientStop Color="#FFE7F08A"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Label x:Name="lblLevel" Content="Level :" HorizontalAlignment="Left" Margin="35,90,0,0" VerticalAlignment="Top" Foreground="Black" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0.659,0.033" FontStyle="Italic"/>
@@ -24,50 +24,47 @@
         <TextBox x:Name="txtLevel" HorizontalAlignment="Left" Margin="1,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" RenderTransformOrigin="0.692,-0.722" FontSize="14" Grid.Column="2"/>
         <TextBox x:Name="txtFirstName" HorizontalAlignment="Left" Margin="1,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" FontSize="14" Grid.Column="2"/>
         <TextBox x:Name="txtLastName" HorizontalAlignment="Left" Margin="1,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" RenderTransformOrigin="0.542,2.508" FontSize="14" Grid.Column="2"/>
-        <Button x:Name="btnInsert" Content="Insert Student" HorizontalAlignment="Left" Margin="194,93,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnInsert_Click" RenderTransformOrigin="0.5,0.93" Grid.Column="2">
+        <Button x:Name="btnInsert" Content="Insert Student" HorizontalAlignment="Left" Margin="194,93,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnInsert_Click" RenderTransformOrigin="0.5,0.93" Grid.Column="2" Foreground="#FF0000F5">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFEDEDDD"/>
-                    <GradientStop Color="#FFC5E21E" Offset="0.644"/>
-                    <GradientStop Color="#FFE2E4CE" Offset="0.34"/>
+                    <GradientStop Color="#FF919191"/>
+                    <GradientStop Color="WhiteSmoke" Offset="1"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="btnUpdate" Content="Update Student" HorizontalAlignment="Left" Margin="194,126,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnUpdate_Click" Grid.Column="2">
+        <Button x:Name="btnUpdate" Content="Update Student" HorizontalAlignment="Left" Margin="194,126,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnUpdate_Click" Grid.Column="2" Foreground="#FF007D00">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFBCE8DF" Offset="0.307"/>
-                    <GradientStop Color="#FF49E0E4" Offset="0.716"/>
+                    <GradientStop Color="WhiteSmoke" Offset="1"/>
+                    <GradientStop Color="#FF919191" Offset="0"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="btnDelete" Content="Delete Student" HorizontalAlignment="Left" Margin="194,158,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnDelete_Click" Grid.Column="2" RenderTransformOrigin="0.513,0.93">
+        <Button x:Name="btnDelete" Content="Delete Student" HorizontalAlignment="Left" Margin="194,158,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold" Click="btnDelete_Click" Grid.Column="2" RenderTransformOrigin="0.513,0.93" Foreground="#FFF50000">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFECC2C2" Offset="0.373"/>
-                    <GradientStop Color="#FFE46161" Offset="0.592"/>
+                    <GradientStop Color="WhiteSmoke" Offset="1"/>
+                    <GradientStop Color="#FF919191" Offset="0"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
         <ListBox x:Name="lstAllStudents" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="376,96,35,23" FontSize="14" SelectionChanged="lstAllStudents_SelectionChanged" Grid.Column="2"/>
         <ListBox x:Name="lstGroup" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="43,286,480,23" FontSize="14" Grid.ColumnSpan="3"/>
-        <Button x:Name="btnGenerate" Content="Generate Group" HorizontalAlignment="Left" Margin="64,249,0,0" VerticalAlignment="Top" Width="140" FontSize="14" FontWeight="Bold" Click="btnGenerate_Click" RenderTransformOrigin="0.671,1.151" Grid.Column="2">
+        <Button x:Name="btnGenerate" Content="Generate Group" HorizontalAlignment="Left" Margin="64,249,0,0" VerticalAlignment="Top" Width="140" FontSize="14" FontWeight="Bold" Click="btnGenerate_Click" RenderTransformOrigin="0.671,1.151" Grid.Column="2" Foreground="#FF0000F5">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFE6C89B" Offset="0.771"/>
-                    <GradientStop Color="#FFE67E16" Offset="0"/>
-                    <GradientStop Color="#FFEAD8B3" Offset="0.993"/>
-                    <GradientStop Color="#FFD2790C" Offset="0.288"/>
+                    <GradientStop Color="#FF919191" Offset="0"/>
+                    <GradientStop Color="WhiteSmoke" Offset="0.993"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
         <TextBox x:Name="txtGroupText" HorizontalAlignment="Right" Margin="0,250,591,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontSize="14" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Label x:Name="lblGenerateGroup" Content="Group by" HorizontalAlignment="Right" Margin="0,246,620,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontStyle="Italic" Width="92" Grid.ColumnSpan="3"/>
-        <Button x:Name="btnWriteCSVGroupedStudents" Content="Write CSV Group" HorizontalAlignment="Left" Margin="184,348,0,0" VerticalAlignment="Top" FontSize="14" Height="23" FontWeight="Bold" Width="140" Click="btnWriteCSVGroupedStudents_Click" Grid.Column="2">
+        <Button x:Name="btnWriteCSVGroupedStudents" Content="Write CSV Group" HorizontalAlignment="Left" Margin="184,348,0,0" VerticalAlignment="Top" FontSize="14" Height="23" FontWeight="Bold" Width="140" Click="btnWriteCSVGroupedStudents_Click" Grid.Column="2" Foreground="#FF960032">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFBBB1B1" Offset="0.288"/>
-                    <GradientStop Color="White" Offset="0.49"/>
+                    <GradientStop Color="#FF919191" Offset="0"/>
+                    <GradientStop Color="WhiteSmoke" Offset="0.997"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
@@ -75,11 +72,11 @@
         <Label x:Name="lblStudent" Content="Student" HorizontalAlignment="Left" Margin="35,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.053,0.079" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2"/>
         <Label x:Name="lblGenereateGroup" Content="Generate Group" HorizontalAlignment="Left" Margin="35,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="3"/>
         <Button Grid.Column="2" Content="Button" HorizontalAlignment="Left" Height="0" Margin="521,24,0,0" VerticalAlignment="Top" Width="5"/>
-        <Button x:Name="btnHelp" Grid.Column="2" Content="Help" HorizontalAlignment="Left" Margin="491,13,0,0" VerticalAlignment="Top" Width="115" FontSize="14" FontWeight="Bold" Click="btnHelp_Click">
+        <Button x:Name="btnHelp" Grid.Column="2" Content="Help" HorizontalAlignment="Left" Margin="491,13,0,0" VerticalAlignment="Top" Width="115" FontSize="14" FontWeight="Bold" Click="btnHelp_Click" Foreground="White">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFFAF7ED" Offset="0"/>
-                    <GradientStop Color="#FFB4D1CF" Offset="1"/>
+                    <GradientStop Color="#FFFC0000" Offset="0.986"/>
+                    <GradientStop Color="#FFA32E2E" Offset="0"/>
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
