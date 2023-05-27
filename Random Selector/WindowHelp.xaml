@@ -18,11 +18,11 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <RadialGradientBrush>
-                <GradientStop Color="#FFF3F1EE"/>
-                <GradientStop Color="#FFD6DC9B" Offset="0.991"/>
+                <GradientStop Color="#FFE7F08A"/>
+                <GradientStop Color="#FFFFFF64" Offset="0.991"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="720" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="14">
+        <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="720" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="14" Foreground="Black">
              <Bold>Gebruiksaanwijzing</Bold>
 <LineBreak /><LineBreak />
 Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Students.txt".
@@ -49,7 +49,7 @@ Klik op de button "Delete" om de student te verwijderen.
 Genereren van een groep gebeurt door in het tekstvak het gewenste aantal studenten in te voeren.<LineBreak />
 Klikken op de button "Generate Group" zal automatisch een groep aanmaken bestaande uit 1 'Level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
 De gemaakte groep verschijnt in de linkerlijst van de app.<LineBreak />
-Klikken op de button "WriteToCSV" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
+Klikken op de button "Write CSV Group" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
 Die studenten verdwijnen ook uit "Students.txt" en de rechterlijst van de app. 
  <LineBreak /> <LineBreak />
 De tekstbestanden zijn Comma Separated Values (CSV):
@@ -59,13 +59,12 @@ Voorbeeld
 1,Jon,Adams<LineBreak />
 3,Jack,Jackson<LineBreak />
 2,Mustafa,Gorissen<LineBreak />
-4,Atilla,Vandersmissen<LineBreak />
-etc.
+4,Atilla,Vandersmissen
         </TextBlock>
-        <Button x:Name="btnClose" Grid.Column="3" Content="Close" HorizontalAlignment="Center" Margin="0,681,0,0" VerticalAlignment="Top" Width="94" Height="29" FontSize="14" FontWeight="Bold" Click="btnClose_Click" Foreground="White">
+        <Button x:Name="btnClose" Grid.Column="3" Content="Close" HorizontalAlignment="Center" Margin="0,670,0,0" VerticalAlignment="Top" Width="94" Height="29" FontSize="14" FontWeight="Bold" Click="btnClose_Click" Foreground="White">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA11212"/>
+                    <GradientStop Color="Red"/>
                     <GradientStop Color="Red" Offset="1"/>
                 </LinearGradientBrush>
             </Button.Background>
