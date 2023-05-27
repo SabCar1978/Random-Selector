@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace Random_Selector
     /// </summary>
     public partial class MainWindow : Window
     {
+
         // filepath locatede in bin directory of this project
         string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
 
@@ -25,7 +27,7 @@ namespace Random_Selector
 
         // declaring variable that represents the index of the selected student
         int selectedStudentIndex = 0;
-
+        Random random = new Random();
         public MainWindow()
         {
             InitializeComponent();
@@ -126,12 +128,12 @@ namespace Random_Selector
             int counter = int.Parse(txtGroupText.Text);
             // Checking if there are enough students to group according inputted number
             if (students.Count < counter)
-            { 
-                MessageBox.Show("Not enough students left to group"); 
+            {
+                MessageBox.Show("Not enough students left to group");
             }
             else
             {
-                Random random = new Random();
+               // Random random = new Random();
                 // Get all level 1 students and put them into list
                 var level1Students = students.Where(s => s.Level == 1).ToList();
                 if (level1Students.Count == 0)
@@ -144,33 +146,36 @@ namespace Random_Selector
                     studentsGroup.Add(level1Students[index]);
                     var result = students.IndexOf(students.Where(s => s.FirstName == level1Students[index].FirstName &&
                     s.LastName == level1Students[index].LastName).FirstOrDefault());
-                    students.RemoveAt(result);
+                    students.RemoveAt(result);                 
                     if (students.Count == 0)
                     {
                         MessageBox.Show("There are no students to group.\nPlease insert students!");
                         return;
-                    }
+                    }      
                     else
                     {
+                        int randomindex = 0;
                         // counter - 1 because student with level 1 is added to the group.
                         counter = counter - 1;
-                        // Add remaining students randomly to the group on condition that they are not of level 1.
-                        for (int i = 0; i < counter; i++)
                         {
-                            int randomindex = random.Next(0, students.Count);
-                            if (students[randomindex].Level == 1)
+                            // Add remaining students randomly to the group on condition that they are not of level 1.
+                            for (int i = 0; i < counter; i++)
                             {
-                                i--; // decrement i because the to rest the loopcounter to the value before encoutering a level 1 student
-                                continue;
-                            }
-                            else
-                            {
-                                studentsGroup.Add(students[randomindex]); // add student to the group
-                                students.RemoveAt(randomindex); // remove the student from the main list
-                                if (students.Count == 0 && i != counter - 1)
+                                randomindex = random.Next(0, students.Count);
+                                if (students[randomindex].Level == 1)
                                 {
-                                    MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
-                                    break;
+                                    i--; // decrement i because to reset the loopcounter to the value before encoutering a level 1 student
+                                    continue;
+                                }
+                                else
+                                {
+                                    studentsGroup.Add(students[randomindex]); // add student to the group
+                                    students.RemoveAt(randomindex); // remove the student from the main list
+                                    if (students.Count == 0 && i != counter - 1)
+                                    {
+                                        MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
+                                        break;
+                                    }
                                 }
                             }
                         }
