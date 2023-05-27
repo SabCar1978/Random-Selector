@@ -176,15 +176,18 @@ namespace Random_Selector
                                         MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
                                         break;
                                     }
+                                    else
+                                    {
+                                        await UpdateCSVStudentsAsync();
+                                        LoadGroup();
+                                        LoadStudents();
+                                    }
                                 }
-                            }
+                            }                          
                         }
                     }
                 }
-            }
-            await UpdateCSVStudentsAsync();
-            LoadGroup();
-            LoadStudents();
+            }         
         }
         // Method updating CSV-file by removing the grouped students
         private async Task UpdateCSVStudentsAsync()
