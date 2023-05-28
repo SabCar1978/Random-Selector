@@ -1,6 +1,7 @@
 ﻿using Random_Selector.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace Random_Selector
     {
 
         // filepath locatede in bin directory of this project
-        string filePath = Directory.GetCurrentDirectory() + "\\Students.txt";
+        string filePath = Directory.GetCurrentDirectory() + "\\Studenten.txt";
 
         // Students list will show in listbox and is used to write(update, delete) to the CSV textfile Students.txt
         List<Student> students = new List<Student>();
@@ -39,7 +40,7 @@ namespace Random_Selector
             // if there are no students in the file, show message in listbox
             if (CheckStudentsCount() == 0)
             {
-                lstAllStudents.Items.Add("Please insert students!");
+                lstAllStudents.Items.Add("Geef studenten in a.u.b.!");
             }
             else
             {
@@ -88,7 +89,7 @@ namespace Random_Selector
             Student student = new Student();
             if (String.IsNullOrEmpty(txtLevel.Text) || String.IsNullOrEmpty(txtFirstName.Text) || String.IsNullOrEmpty(txtLastName.Text))
             {
-                MessageBox.Show("Please, fill in all required fields!");
+                MessageBox.Show("Vul alle velden in a.u.b.!");
             }
             else
             {
@@ -129,7 +130,7 @@ namespace Random_Selector
             // Checking if there are enough students to group according inputted number
             if (students.Count < counter)
             {
-                MessageBox.Show("Not enough students left to group");
+                MessageBox.Show("Er zijn niet genoeg studenten om te groeperen.\nGeef een kleiner aantal in of voer nieuwe studenten in!");
             }
             else
             {
@@ -138,7 +139,7 @@ namespace Random_Selector
                 var level1Students = students.Where(s => s.Level == 1).ToList();
                 if (level1Students.Count == 0)
                 {
-                    MessageBox.Show("There are no level 1 students.\nPlease insert one!");
+                    MessageBox.Show("Er zijn geen level 1 studenten.\nGeef een level 1 student in!");
                 }
                 else
                 {   // Get one level 1 student randomly in the level1Students list
@@ -149,19 +150,18 @@ namespace Random_Selector
                     students.RemoveAt(result);                 
                     if (students.Count == 0)
                     {
-                        MessageBox.Show("There are no students to group.\nPlease insert students!");
+                        MessageBox.Show("Er zijn geen studenten meer om te groepern.\nGeef nieuwe studenten in a.u.b.!");
                         return;
                     }      
                     else
                     {
-                        int randomindex = 0;
                         // counter - 1 because student with level 1 is added to the group.
                         counter = counter - 1;
                         {
                             // Add remaining students randomly to the group on condition that they are not of level 1.
                             for (int i = 0; i < counter; i++)
                             {
-                                randomindex = random.Next(0, students.Count);
+                                int randomindex = random.Next(0, students.Count);
                                 if (students[randomindex].Level == 1)
                                 {
                                     i--; // decrement i because to reset the loopcounter to the value before encoutering a level 1 student
@@ -173,17 +173,29 @@ namespace Random_Selector
                                     students.RemoveAt(randomindex); // remove the student from the main list
                                     if (students.Count == 0 && i != counter - 1)
                                     {
-                                        MessageBox.Show($"No non-level 1 students left over\nto fill the {i + 1} place(s) in the group.");
+                                        MessageBox.Show($"Er zijn te weinig studenten om te groeperen.");
+                                        students.AddRange(studentsGroup);
+                                        studentsGroup.Clear();
+                                        counter = 0;
                                         break;
                                     }
-                                    else
+                                    else if (i < counter - 1)
                                     {
-                                        await UpdateCSVStudentsAsync();
-                                        LoadGroup();
-                                        LoadStudents();
+                                        MessageBox.Show($"Er zijn te weinig niet-level 1 studenten om te groeperen.");
+                                        students.AddRange(studentsGroup);
+                                        studentsGroup.Clear();
+                                        txtGroupText.Text = string.Empty;
+                                        counter = 0;
+                                        break;
                                     }
                                 }
-                            }                          
+                            }
+                            if (counter != 0)
+                            {
+                                await UpdateCSVStudentsAsync();
+                                LoadGroup();
+                                LoadStudents();
+                            }
                         }
                     }
                 }
@@ -232,7 +244,7 @@ namespace Random_Selector
         private async Task WriteCSVGroupedStudentsAsync()
         {
             groupnumber++;
-            string file = Directory.GetCurrentDirectory() + "\\Group" + groupnumber + ".txt";
+            string file = Directory.GetCurrentDirectory() + "\\Groep" + groupnumber + ".txt";
 
             using (StreamWriter writer = new StreamWriter(file, true))
             {
@@ -242,11 +254,11 @@ namespace Random_Selector
                 }
                 if (File.Exists(file))
                 {
-                    MessageBox.Show("CSV Grouped Students has been written");
+                    MessageBox.Show("CSV Groep van studenten succesvol geschreven!");
                 }
                 else
                 {
-                    MessageBox.Show("Error!\nThe CSV has not been written!");
+                    MessageBox.Show("Fout!\nCSV kon niet worden geschreven!");
                 }
             }
         }
@@ -286,7 +298,7 @@ namespace Random_Selector
         // If yes, it performs the deletion of the student from list and textfile
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show($"Do you want to delete student:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
+            MessageBoxResult result = MessageBox.Show($"Bent u zeker dat u volgende student wilt verwijderen:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
                                                       "Confirmation",
                                                       MessageBoxButton.YesNo,
                                                       MessageBoxImage.Question);

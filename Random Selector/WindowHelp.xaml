@@ -25,32 +25,32 @@
         <TextBlock x:Name="txtblkHelp" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="750" Height="720" Margin="12,10,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="14" Foreground="Black">
              <Bold>Gebruiksaanwijzing</Bold>
 <LineBreak /><LineBreak />
-Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Students.txt".
+Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Studenten.txt".
 <LineBreak /><LineBreak />
-Als "Students.txt" niet bestaat zal er automatisch een leeg tekstbestand aangemaakt worden.<LineBreak /> 
+Als "Studenten.txt" niet bestaat zal er automatisch een leeg tekstbestand aangemaakt worden.<LineBreak /> 
 In de rechterlijst van de app verschijnt dan "Please insert students".
 <LineBreak /><LineBreak />
-Als "Students.txt" wel bestaat maar leeg is, verschijnt in de rechterlijst van de app "Please insert students!". 
+Als "Studenten.txt" wel bestaat maar leeg is, verschijnt in de rechterlijst van de app "Geef studenten in a.u.b.!". 
 <LineBreak /><LineBreak />
 In de tekstvakken links dient de info (level, voornaam, achternaam) over de student ingevuld te worden.<LineBreak />
-Toevoegen van de student aan het tekstbestand "Students.txt" gebeurt door op de button "Insert" te klikken.<LineBreak />
+Toevoegen van de student aan het tekstbestand "Studenten.txt" gebeurt door op de button "Insert Student" te klikken.<LineBreak />
 De toegevoegde student verschijnt ook in de rechterlijst van de app.
 <LineBreak /><LineBreak />
 Om de info van een student te wijzigen:<LineBreak /> 
-Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.
-Wijzig de info in de desbetreffende tekstvakken links.
-Klik op de button "Update" om de wijziging door te voeren.
+Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.<LineBreak />
+Wijzig de info in de desbetreffende tekstvakken links.<LineBreak />
+Klik op de button "Update Student" om de wijziging door te voeren.
 <LineBreak /><LineBreak />
 Om een student te verwijderen:<LineBreak /> 
 Selecteer de student door 1x te klikken in de rechterlijst op de desbetreffende student.<LineBreak />
 Info van de student wordt getoond in de tekstvakken links.<LineBreak />
-Klik op de button "Delete" om de student te verwijderen.
+Klik op de button "Delete Student" om de student te verwijderen.
 <LineBreak /><LineBreak />
 Genereren van een groep gebeurt door in het tekstvak het gewenste aantal studenten in te voeren.<LineBreak />
-Klikken op de button "Generate Group" zal automatisch een groep aanmaken bestaande uit 1 'Level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
+Klikken op de button "Genereer Groep" zal automatisch een groep aanmaken bestaande uit 1 'Level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
 De gemaakte groep verschijnt in de linkerlijst van de app.<LineBreak />
-Klikken op de button "Write CSV Group" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
-Die studenten verdwijnen ook uit "Students.txt" en de rechterlijst van de app. 
+Klikken op de button "Schrijf CSV Groep" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
+Die studenten verdwijnen ook uit "Studenten.txt" en de rechterlijst van de app. 
  <LineBreak /> <LineBreak />
 De tekstbestanden zijn Comma Separated Values (CSV):
 <LineBreak />
@@ -61,7 +61,7 @@ Voorbeeld
 2,Mustafa,Gorissen<LineBreak />
 4,Atilla,Vandersmissen
         </TextBlock>
-        <Button x:Name="btnClose" Grid.Column="3" Content="Close" HorizontalAlignment="Center" Margin="0,670,0,0" VerticalAlignment="Top" Width="94" Height="29" FontSize="14" FontWeight="Bold" Click="btnClose_Click" Foreground="White">
+        <Button x:Name="btnClose" Grid.Column="3" Content="Close" HorizontalAlignment="Left" Margin="501,675,0,0" VerticalAlignment="Top" Width="94" Height="29" FontSize="14" FontWeight="Bold" Click="btnClose_Click" Foreground="White">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Red"/>

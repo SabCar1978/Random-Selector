@@ -19,8 +19,8 @@
             </RadialGradientBrush>
         </Grid.Background>
         <Label x:Name="lblLevel" Content="Level :" HorizontalAlignment="Left" Margin="35,90,0,0" VerticalAlignment="Top" Foreground="Black" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0.659,0.033" FontStyle="Italic"/>
-        <Label x:Name="lblFirstName" Content="First Name :" HorizontalAlignment="Left" Margin="35,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.191" FontWeight="Bold" FontSize="14" FontStyle="Italic" Grid.ColumnSpan="2"/>
-        <Label x:Name="lbllastName" Content="Last Name :" HorizontalAlignment="Left" Margin="35,155,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" FontStyle="Italic" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblFirstName" Content="Voornaam :" HorizontalAlignment="Left" Margin="35,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.191" FontWeight="Bold" FontSize="14" FontStyle="Italic" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbllastName" Content="Achternaam :" HorizontalAlignment="Left" Margin="35,155,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" FontStyle="Italic" Grid.ColumnSpan="2"/>
         <TextBox x:Name="txtLevel" HorizontalAlignment="Left" Margin="1,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" RenderTransformOrigin="0.692,-0.722" FontSize="14" Grid.Column="2"/>
         <TextBox x:Name="txtFirstName" HorizontalAlignment="Left" Margin="1,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" FontSize="14" Grid.Column="2"/>
         <TextBox x:Name="txtLastName" HorizontalAlignment="Left" Margin="1,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" RenderTransformOrigin="0.542,2.508" FontSize="14" Grid.Column="2"/>
@@ -50,7 +50,7 @@
         </Button>
         <ListBox x:Name="lstAllStudents" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="376,96,35,23" FontSize="14" SelectionChanged="lstAllStudents_SelectionChanged" Grid.Column="2"/>
         <ListBox x:Name="lstGroup" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="43,286,480,23" FontSize="14" Grid.ColumnSpan="3"/>
-        <Button x:Name="btnGenerate" Content="Generate Group" HorizontalAlignment="Left" Margin="64,249,0,0" VerticalAlignment="Top" Width="140" FontSize="14" FontWeight="Bold" Click="btnGenerate_Click" RenderTransformOrigin="0.671,1.151" Grid.Column="2" Foreground="White">
+        <Button x:Name="btnGenerate" Content="Genereer Groep" HorizontalAlignment="Left" Margin="64,249,0,0" VerticalAlignment="Top" Width="140" FontSize="14" FontWeight="Bold" Click="btnGenerate_Click" RenderTransformOrigin="0.671,1.151" Grid.Column="2" Foreground="White">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Blue" Offset="1"/>
@@ -59,8 +59,8 @@
             </Button.Background>
         </Button>
         <TextBox x:Name="txtGroupText" HorizontalAlignment="Right" Margin="0,250,591,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontSize="14" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Label x:Name="lblGenerateGroup" Content="Group by" HorizontalAlignment="Right" Margin="0,246,620,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontStyle="Italic" Width="92" Grid.ColumnSpan="3"/>
-        <Button x:Name="btnWriteCSVGroupedStudents" Content="Write CSV Group" HorizontalAlignment="Left" Margin="184,348,0,0" VerticalAlignment="Top" FontSize="14" Height="23" FontWeight="Bold" Width="140" Click="btnWriteCSVGroupedStudents_Click" Grid.Column="2" Foreground="#FFFAFAFA">
+        <Label x:Name="lblGenerateGroup" Content="Aantal" HorizontalAlignment="Right" Margin="0,246,620,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontStyle="Italic" Width="92" Grid.ColumnSpan="3"/>
+        <Button x:Name="btnWriteCSVGroupedStudents" Content="Schrijf CSV Groep" HorizontalAlignment="Left" Margin="184,348,0,0" VerticalAlignment="Top" FontSize="14" Height="23" FontWeight="Bold" Width="140" Click="btnWriteCSVGroupedStudents_Click" Grid.Column="2" Foreground="#FFFAFAFA">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Blue" Offset="1"/>
@@ -68,9 +68,9 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Label x:Name="lblTitle" Content="Group Students App" Margin="120,0,0,0" VerticalAlignment="Top" FontSize="28" Foreground="Black" HorizontalAlignment="Left" FontWeight="Bold" Grid.Column="2" RenderTransformOrigin="0.399,0.403"/>
+        <Label x:Name="lblTitle" Content="Studentengroep Generator" Margin="38,1,0,0" VerticalAlignment="Top" FontSize="28" Foreground="Black" HorizontalAlignment="Left" FontWeight="Bold" Grid.Column="1" RenderTransformOrigin="0.399,0.403" Grid.ColumnSpan="2"/>
         <Label x:Name="lblStudent" Content="Student" HorizontalAlignment="Left" Margin="35,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.053,0.079" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2"/>
-        <Label x:Name="lblGenereateGroup" Content="Generate Group" HorizontalAlignment="Left" Margin="35,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="3"/>
+        <Label x:Name="lblGenereateGroup" Content="Groepeer Studenten" HorizontalAlignment="Left" Margin="35,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="3"/>
         <Button Grid.Column="2" Content="Button" HorizontalAlignment="Left" Height="0" Margin="521,24,0,0" VerticalAlignment="Top" Width="5"/>
         <Button x:Name="btnHelp" Grid.Column="2" Content="Help" HorizontalAlignment="Left" Margin="491,13,0,0" VerticalAlignment="Top" Width="115" FontSize="14" FontWeight="Bold" Click="btnHelp_Click" Foreground="White">
             <Button.Background>
@@ -80,6 +80,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
+        <Label Grid.Column="2" Content="Studentenlijst:" HorizontalAlignment="Left" Margin="376,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
 
     </Grid>
 </Window>
