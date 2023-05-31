@@ -131,6 +131,7 @@ namespace Random_Selector
             if (students.Count < counter)
             {
                 MessageBox.Show("Er zijn niet genoeg studenten om te groeperen.\nGeef een kleiner aantal in of voer nieuwe studenten in!");
+                txtGroupText.Text = string.Empty; 
             }
             else
             {
@@ -179,15 +180,15 @@ namespace Random_Selector
                                         counter = 0;
                                         break;
                                     }
-                                    else if (i < counter - 1)
-                                    {
-                                        MessageBox.Show($"Er zijn te weinig niet-level 1 studenten om te groeperen.");
-                                        students.AddRange(studentsGroup);
-                                        studentsGroup.Clear();
-                                        txtGroupText.Text = string.Empty;
-                                        counter = 0;
-                                        break;
-                                    }
+                                    //else
+                                    //{
+                                    //    MessageBox.Show($"Er zijn te weinig niet-level 1 studenten om te groeperen.");
+                                    //    students.AddRange(studentsGroup);
+                                    //    studentsGroup.Clear();
+                                    //    txtGroupText.Text = string.Empty;
+                                    //    counter = 0;
+                                    //    break;
+                                    //}
                                 }
                             }
                             if (counter != 0)
@@ -241,10 +242,12 @@ namespace Random_Selector
         }
         // Method writing grouped students to new CSV-file
         private static int groupnumber = 0;
+        private string groupdatehour = string.Empty;
         private async Task WriteCSVGroupedStudentsAsync()
         {
             groupnumber++;
-            string file = Directory.GetCurrentDirectory() + "\\Groep" + groupnumber + ".txt";
+            groupdatehour = DateTime.Now.ToString("_yyyyMMdd-HHmmss");
+            string file = Directory.GetCurrentDirectory() + "\\Groep_" + groupnumber + groupdatehour + ".txt";
 
             using (StreamWriter writer = new StreamWriter(file, true))
             {
@@ -279,12 +282,19 @@ namespace Random_Selector
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Student updatedStudent = new Student();
-            updatedStudent.Level = int.Parse(txtLevel.Text);
-            updatedStudent.FirstName = txtFirstName.Text;
-            updatedStudent.LastName = txtLastName.Text;
-            await UpdateStudent(updatedStudent);
-            ClearFields();
-            LoadStudents();
+            if (String.IsNullOrEmpty(txtLevel.Text) || String.IsNullOrEmpty(txtFirstName.Text) || String.IsNullOrEmpty(txtLastName.Text))
+            {
+                MessageBox.Show("Vul alle velden in a.u.b.!");
+            }
+            else
+            {
+                updatedStudent.Level = int.Parse(txtLevel.Text);
+                updatedStudent.FirstName = txtFirstName.Text;
+                updatedStudent.LastName = txtLastName.Text;
+                await UpdateStudent(updatedStudent);
+                ClearFields();
+                LoadStudents();
+            }
         }
         // Method to alter the students list with the updated values of the selected student.
         // The updated list will be written to textfile in order to update the textfile. 
@@ -306,6 +316,11 @@ namespace Random_Selector
             if (result == MessageBoxResult.Yes)
             {
                 await DeleteStudent(selectedStudentIndex);
+                ClearFields();
+                LoadStudents();
+            }
+            else
+            {
                 ClearFields();
                 LoadStudents();
             }
