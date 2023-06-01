@@ -49,7 +49,7 @@ Klik op de button "Delete Student" om de student te verwijderen.
 Genereren van een groep gebeurt door in het tekstvak het gewenste aantal studenten in te voeren.<LineBreak />
 Klikken op de button "Genereer Groep" zal automatisch een groep aanmaken bestaande uit 1 'Level 1' student aangevuld met willekeurig gekozen studenten uit de andere levels.<LineBreak />
 De gemaakte groep verschijnt in de linkerlijst van de app.<LineBreak />
-Klikken op de button "Schrijf CSV Groep" zal een tekstbestand "GroepX.txt" maken met de gegroepeerde studenten.<LineBreak /> 
+Klikken op de button "Schrijf CSV Groep" zal een tekstbestand "Groep_yyyyMMdd-HHmmss.txt" maken met de gegroepeerde studenten.<LineBreak /> 
 Die studenten verdwijnen ook uit "Studenten.txt" en de rechterlijst van de app. 
  <LineBreak /> <LineBreak />
 De tekstbestanden zijn Comma Separated Values (CSV):

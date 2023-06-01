@@ -16,6 +16,9 @@ namespace Random_Selector
     /// </summary>
     public partial class MainWindow : Window
     {
+        //---------------------------------------------------------------------
+        // GLOBAL VARIABLES
+        //---------------------------------------------------------------------
 
         // filepath locatede in bin directory of this project
         string filePath = Directory.GetCurrentDirectory() + "\\Studenten.txt";
@@ -28,12 +31,21 @@ namespace Random_Selector
 
         // declaring variable that represents the index of the selected student
         int selectedStudentIndex = 0;
+
+        // declaring the randomgenerator for generating index to form the group of students
         Random random = new Random();
+
+        //Main Window Constructor
         public MainWindow()
         {
             InitializeComponent();
             LoadStudents();
         }
+
+        //---------------------------------------------------------------------
+        //METHODS RELATED TO TEXTFILE EN LIST STUDENTS
+        //---------------------------------------------------------------------
+
         // Method loading students from textfile into listbox.
         private void LoadStudents()
         {
@@ -83,6 +95,30 @@ namespace Random_Selector
             }
             return students;
         }
+
+        //---------------------------------------------------------------------
+        // SELECT STUDENT
+        //---------------------------------------------------------------------
+
+        // Showing selected student from the listbox in the corresponding textboxes.
+        private void lstAllStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Student selectedStudent = new Student();
+            selectedStudent = lstAllStudents.SelectedItem as Student;
+            if (selectedStudent != null)
+            {
+                txtLevel.Text = selectedStudent.Level.ToString();
+                txtFirstName.Text = selectedStudent.FirstName;
+                txtLastName.Text = selectedStudent.LastName;
+            }
+            selectedStudentIndex = lstAllStudents.SelectedIndex;
+        }
+
+        //---------------------------------------------------------------------
+        // INSERT NEW STUDENT
+        //---------------------------------------------------------------------
+
+        // Click on btnInsert wiil insert a new student into the textfile and then show the student in lstAllStudents
         private async void btnInsert_Click(object sender, RoutedEventArgs e)
         {
             lstAllStudents.Items.Clear();
@@ -117,6 +153,75 @@ namespace Random_Selector
             }
             LoadStudents();
         }
+
+        //---------------------------------------------------------------------
+        // UPDATE EXISTING STUDENT
+        //---------------------------------------------------------------------
+
+        // Click on btnUpdate will update the textfile with the changed values for the selected student and refresh the listbox
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Student updatedStudent = new Student();
+            if (String.IsNullOrEmpty(txtLevel.Text) || String.IsNullOrEmpty(txtFirstName.Text) || String.IsNullOrEmpty(txtLastName.Text))
+            {
+                MessageBox.Show("Vul alle velden in a.u.b.!");
+            }
+            else
+            {
+                updatedStudent.Level = int.Parse(txtLevel.Text);
+                updatedStudent.FirstName = txtFirstName.Text;
+                updatedStudent.LastName = txtLastName.Text;
+                await UpdateStudent(updatedStudent);
+                ClearFields();
+                LoadStudents();
+            }
+        }
+        // Method to alter the students list with the updated values of the selected student.
+        // The updated list will be written to textfile in order to update the textfile. 
+        private async Task UpdateStudent(Student updatedstudent)
+        {
+            // update students list with the changed student values based on its index retrieved fr
+            students[selectedStudentIndex] = updatedstudent;
+            await UpdateCSVStudentsAsync();
+        }
+
+        //---------------------------------------------------------------------
+        // DELETE EXISTING STUDENT
+        //---------------------------------------------------------------------
+
+        // Click btnDelete will show a message to confirm if the user wants to delete the selected student.
+        // If yes, it performs the deletion of the student from list and textfile
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show($"Bent u zeker dat u volgende student wilt verwijderen:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
+                                                      "Confirmation",
+                                                      MessageBoxButton.YesNo,
+                                                      MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                await DeleteStudent(selectedStudentIndex);
+                ClearFields();
+                LoadStudents();
+            }
+            else
+            {
+                ClearFields();
+                LoadStudents();
+            }
+        }
+        //Delete the student from list and textfile based on index retrieved from selected student in listbox
+        private async Task DeleteStudent(int index)
+        {
+            students.RemoveAt(index);
+            await UpdateCSVStudentsAsync();
+        }
+
+        //-------------------------------------------------------------------------
+        // GENERATE GROUP OF RANDOMLY CHOSEN STUDENTS (1 LEVEL 1 STUDENT REQUIRED)
+        //-------------------------------------------------------------------------
+
+        // Click on btnGenerate will generate the group with number specified in txtGroup
         private async void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
             await GenerateGroup();
@@ -125,22 +230,39 @@ namespace Random_Selector
         private async Task GenerateGroup()
         {
             lstGroup.Items.Clear();
+            int aantalAllStudents = students.Count;
 
             int counter = int.Parse(txtGroupText.Text);
             // Checking if there are enough students to group according inputted number
-            if (students.Count < counter)
+            if (aantalAllStudents == 0)
             {
-                MessageBox.Show("Er zijn niet genoeg studenten om te groeperen.\nGeef een kleiner aantal in of voer nieuwe studenten in!");
-                txtGroupText.Text = string.Empty; 
+                MessageBox.Show("Er zijn geen studenten in het bestand!\nVoer nieuwe studenten in!");
+                txtGroupText.Text = string.Empty;
+                counter = 0;
+            }
+            else if (aantalAllStudents < counter)
+            {
+                MessageBox.Show("Er zijn niet genoeg studenten!\nGeef een kleiner aantal in of voer nieuwe studenten in!");
+                txtGroupText.Text = string.Empty;
+                counter = 0;
             }
             else
             {
-               // Random random = new Random();
                 // Get all level 1 students and put them into list
                 var level1Students = students.Where(s => s.Level == 1).ToList();
-                if (level1Students.Count == 0)
+                int aantalLevel1Students = level1Students.Count;
+                int aantalNonLevel1Students = aantalAllStudents - aantalLevel1Students;
+                if (aantalLevel1Students == 0)
                 {
-                    MessageBox.Show("Er zijn geen level 1 studenten.\nGeef een level 1 student in!");
+                    MessageBox.Show("Er zijn geen level-1 studenten!\nVoer een level-1 student in!");
+                    txtGroupText.Text = string.Empty;
+                    counter = 0;
+                }
+                else if (aantalNonLevel1Students < counter - 1)
+                {
+                    MessageBox.Show("Er zijn te weinig non-level-1 studenten!\nGeef een kleiner aantal in of voer nieuwe studenten in!");
+                    txtGroupText.Text = string.Empty;
+                    counter = 0;
                 }
                 else
                 {   // Get one level 1 student randomly in the level1Students list
@@ -148,49 +270,25 @@ namespace Random_Selector
                     studentsGroup.Add(level1Students[index]);
                     var result = students.IndexOf(students.Where(s => s.FirstName == level1Students[index].FirstName &&
                     s.LastName == level1Students[index].LastName).FirstOrDefault());
-                    students.RemoveAt(result);                 
-                    if (students.Count == 0)
+                    students.RemoveAt(result);
+                    // counter - 1 because student with level 1 is added to the group.
+                    counter = counter - 1;
                     {
-                        MessageBox.Show("Er zijn geen studenten meer om te groepern.\nGeef nieuwe studenten in a.u.b.!");
-                        return;
-                    }      
-                    else
-                    {
-                        // counter - 1 because student with level 1 is added to the group.
-                        counter = counter - 1;
+                        // Add remaining students randomly to the group on condition that they are not of level 1.
+                        for (int i = 0; i < counter; i++)
                         {
-                            // Add remaining students randomly to the group on condition that they are not of level 1.
-                            for (int i = 0; i < counter; i++)
+                            int randomindex = random.Next(0, students.Count);
+                            if (students[randomindex].Level == 1)
                             {
-                                int randomindex = random.Next(0, students.Count);
-                                if (students[randomindex].Level == 1)
-                                {
-                                    i--; // decrement i because to reset the loopcounter to the value before encoutering a level 1 student
-                                    continue;
-                                }
-                                else
-                                {
-                                    studentsGroup.Add(students[randomindex]); // add student to the group
-                                    students.RemoveAt(randomindex); // remove the student from the main list
-                                    if (students.Count == 0 && i != counter - 1)
-                                    {
-                                        MessageBox.Show($"Er zijn te weinig studenten om te groeperen.");
-                                        students.AddRange(studentsGroup);
-                                        studentsGroup.Clear();
-                                        counter = 0;
-                                        break;
-                                    }
-                                    //else
-                                    //{
-                                    //    MessageBox.Show($"Er zijn te weinig niet-level 1 studenten om te groeperen.");
-                                    //    students.AddRange(studentsGroup);
-                                    //    studentsGroup.Clear();
-                                    //    txtGroupText.Text = string.Empty;
-                                    //    counter = 0;
-                                    //    break;
-                                    //}
-                                }
+                                i--; // decrement i because to reset the loopcounter to the value before encoutering a level 1 student
+                                continue;
                             }
+                            else
+                            {
+                                studentsGroup.Add(students[randomindex]); // add student to the group
+                                students.RemoveAt(randomindex); // remove the student from the main list                
+                            }
+                            //}
                             if (counter != 0)
                             {
                                 await UpdateCSVStudentsAsync();
@@ -200,7 +298,7 @@ namespace Random_Selector
                         }
                     }
                 }
-            }         
+            }
         }
         // Method updating CSV-file by removing the grouped students
         private async Task UpdateCSVStudentsAsync()
@@ -223,14 +321,7 @@ namespace Random_Selector
                 lstGroup.Items.Add(student);
             }
         }
-        // Method clearing the textboxes
-        private void ClearFields()
-        {
-            txtLevel.Text = string.Empty;
-            txtFirstName.Text = string.Empty;
-            txtLastName.Text = string.Empty;
-            txtGroupText.Text = string.Empty;
-        }
+
         // Click on btnWriteCSVGroupedStudents will write the grouped student to new CSV textfile for the specific group
         private async void btnWriteCSVGroupedStudents_Click(object sender, RoutedEventArgs e)
         {
@@ -265,77 +356,28 @@ namespace Random_Selector
                 }
             }
         }
-        // Showing selected student from the listbox in the corresponding textboxes.
-        private void lstAllStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Student selectedStudent = new Student();
-            selectedStudent = lstAllStudents.SelectedItem as Student;
-            if (selectedStudent != null)
-            {
-                txtLevel.Text = selectedStudent.Level.ToString();
-                txtFirstName.Text = selectedStudent.FirstName;
-                txtLastName.Text = selectedStudent.LastName;
-            }
-            selectedStudentIndex = lstAllStudents.SelectedIndex;
-        }
-        // Click on btnUpdate will update the textfile with the changed values for the selected student and refresh the listbox
-        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            Student updatedStudent = new Student();
-            if (String.IsNullOrEmpty(txtLevel.Text) || String.IsNullOrEmpty(txtFirstName.Text) || String.IsNullOrEmpty(txtLastName.Text))
-            {
-                MessageBox.Show("Vul alle velden in a.u.b.!");
-            }
-            else
-            {
-                updatedStudent.Level = int.Parse(txtLevel.Text);
-                updatedStudent.FirstName = txtFirstName.Text;
-                updatedStudent.LastName = txtLastName.Text;
-                await UpdateStudent(updatedStudent);
-                ClearFields();
-                LoadStudents();
-            }
-        }
-        // Method to alter the students list with the updated values of the selected student.
-        // The updated list will be written to textfile in order to update the textfile. 
-        private async Task UpdateStudent(Student updatedstudent)
-        {
-            // update students list with the changed student values based on its index retrieved fr
-            students[selectedStudentIndex] = updatedstudent;
-            await UpdateCSVStudentsAsync();
-        }
-        // Click btnDelete will show a message to confirm if the user wants to delete the selected student.
-        // If yes, it performs the deletion of the student from list and textfile
-        private async void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show($"Bent u zeker dat u volgende student wilt verwijderen:\n{txtLevel.Text} {txtFirstName.Text} {txtLastName.Text}",
-                                                      "Confirmation",
-                                                      MessageBoxButton.YesNo,
-                                                      MessageBoxImage.Question);
 
-            if (result == MessageBoxResult.Yes)
-            {
-                await DeleteStudent(selectedStudentIndex);
-                ClearFields();
-                LoadStudents();
-            }
-            else
-            {
-                ClearFields();
-                LoadStudents();
-            }
-        }
-        //Delete the student from list and textfile based on index retrieved from selected student in listbox
-        private async Task DeleteStudent(int index)
-        {
-            students.RemoveAt(index);
-            await UpdateCSVStudentsAsync();
-        }
-
+        //-----------------------------------------------------------
+        // HELP WINDOW
+        //-----------------------------------------------------------
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
+            // opening child window of (this) main window for reading the helptext
             WindowHelp windowHelp = new WindowHelp(this);
             windowHelp.ShowDialog();
+        }
+
+        //---------------------------------------------
+        // CLEAR FIELDS
+        //---------------------------------------------
+
+        // Method clearing the textboxes
+        private void ClearFields()
+        {
+            txtLevel.Text = string.Empty;
+            txtFirstName.Text = string.Empty;
+            txtLastName.Text = string.Empty;
+            txtGroupText.Text = string.Empty;
         }
     }
 }
