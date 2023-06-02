@@ -332,13 +332,11 @@ namespace Random_Selector
             LoadStudents();
         }
         // Method writing grouped students to new CSV-file
-        private static int groupnumber = 0;
-        private string groupdatehour = string.Empty;
         private async Task WriteCSVGroupedStudentsAsync()
         {
-            groupnumber++;
-            groupdatehour = DateTime.Now.ToString("_yyyyMMdd-HHmmss");
-            string file = Directory.GetCurrentDirectory() + "\\Groep_" + groupnumber + groupdatehour + ".txt";
+            //groupnumber++;
+            string groupdatehour = DateTime.Now.ToString("_yyyyMMdd-HHmmss");
+            string file = Directory.GetCurrentDirectory() + "\\Groep_" + groupdatehour + ".txt";
 
             using (StreamWriter writer = new StreamWriter(file, true))
             {
