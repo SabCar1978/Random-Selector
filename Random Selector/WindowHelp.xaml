@@ -28,11 +28,10 @@
 Bij het opstarten van deze app zal de rechterlijst ingevuld worden met alle studenten van het tekstbestand "Studenten.txt".
 <LineBreak /><LineBreak />
 Als "Studenten.txt" niet bestaat zal er automatisch een leeg tekstbestand aangemaakt worden.<LineBreak /> 
-In de rechterlijst van de app verschijnt dan "Please insert students".
 <LineBreak /><LineBreak />
 Als "Studenten.txt" wel bestaat maar leeg is, verschijnt in de rechterlijst van de app "Geef studenten in a.u.b.!". 
 <LineBreak /><LineBreak />
-In de tekstvakken links dient de info (level, voornaam, achternaam) over de student ingevuld te worden.<LineBreak />
+In de tekstvakken links dient de info (Level, Voornaam, Achternaam) over de student ingevuld te worden.<LineBreak />
 Toevoegen van de student aan het tekstbestand "Studenten.txt" gebeurt door op de button "Insert Student" te klikken.<LineBreak />
 De toegevoegde student verschijnt ook in de rechterlijst van de app.
 <LineBreak /><LineBreak />

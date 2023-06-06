@@ -127,6 +127,10 @@ namespace Random_Selector
             {
                 MessageBox.Show("Vul alle velden in a.u.b.!");
             }
+            else if (int.Parse(txtLevel.Text) <= 0 || int.Parse(txtLevel.Text) > 4)
+            {
+                MessageBox.Show("'Level' moet een getal van 1 tot en met 4 zijn!");
+            }
             else
             {
                 student.Level = int.Parse(txtLevel.Text);
